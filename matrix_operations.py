@@ -1,4 +1,4 @@
-import random, timer, copy
+import random, copy
 
 
 def string_mul(string, number):
