@@ -1,8 +1,5 @@
 import random, timer, copy
 
-#M = int(input("Print the number of strings: "))
-#N = int(input("Print the number of columns: "))
-
 
 def string_mul(string, number):
     return [item * number for item in string]
@@ -123,28 +120,4 @@ def ladder(matrix):
     return matrix
 
 
-#print(opred(matrix_input(3)))
 
-#my_matrix = matrix_input(int(input("Print the number of strings: ")))
-#my_matrix2 = matrix_input(int(input("Print the number of strings: ")))
-#print(my_matrix, my_matrix2, sep = '\n')
-#print(matrix_x_matrix(my_matrix, my_matrix2))
-
-#print(matrix_x_matrix([[2,1,3],
-#                       [0,3,-1]],
-#
- #                      [[-1,0],
-  #                      [ 0,3]]))
-'''
-check = search(matrix(M, N))
-for i in check:
-    print(i)
-print("     |", "     |", "     V", sep="\n")
-for i in ladder(check):
-    print(i)
-'''
-'''
-(bestof, (total, result)) = timer.bestoftotal(5, 100000, ladder, check)
-print('Ladder Matrix: %.5f\n        ||\n        ||\n        \\/' % bestof)
-for i in result:
-    print(i)'''
