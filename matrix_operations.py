@@ -1,4 +1,4 @@
-import random, copy
+import random, timer, copy
 
 
 def string_mul(string, number):
@@ -77,6 +77,33 @@ def opred(matrix):
         return opredelitel
 
 
+def alg_extension(matrix, *indexes):
+    num_of = int(len(indexes)/2)
+    str_indexes = list(indexes[:num_of])
+    str_indexes.sort()
+    str_indexes.reverse()
+    col_indexes = list(indexes[num_of:])
+    col_indexes.sort()
+    col_indexes.reverse()
+    ad_minor = copy.deepcopy(matrix)
+    for index in str_indexes:
+        ad_minor.pop(int(index)-1)
+    for string in ad_minor:
+        for index in col_indexes:
+            string.pop(int(index)-1)
+    extension = ((-1)**(sum(indexes)))*opred(ad_minor)
+    return extension
+    
+
+def inverse_matrix(matrix):
+    det = opred(matrix)
+    if det:
+        alg_matrix = [[alg_extension(matrix, str_index, col_index)  for col_index in range(len(matrix[0]))] for str_index in range(len(matrix))]
+        inverse = matrix_mul(alg_matrix, 1/det)
+        return inverse
+    else:
+        return 'There is no inverse matrix for matrix you input'
+
 def random_matrix(strings, columns):
     return [[random.randint(0, 9) for _ in range(columns)] for _ in range(strings)]
 
@@ -118,6 +145,3 @@ def ladder(matrix):
                     ),
                 )
     return matrix
-
-
-
