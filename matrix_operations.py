@@ -98,7 +98,8 @@ def alg_extension(matrix, *indexes):
 def inverse_matrix(matrix):
     det = opred(matrix)
     if det:
-        alg_matrix = [[alg_extension(matrix, str_index, col_index)  for col_index in range(len(matrix[0]))] for str_index in range(len(matrix))]
+        alg_matrix = [[alg_extension(matrix, str_index+1, col_index+1)  for col_index in range(len(matrix[0]))] for str_index in range(len(matrix))]
+        alg_matrix = matrix_transpon(alg_matrix)
         inverse = matrix_mul(alg_matrix, 1/det)
         return inverse
     else:
