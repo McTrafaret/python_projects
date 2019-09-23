@@ -1,7 +1,7 @@
 import random, copy
 
 def random_matrix():
-    pass
+    return Matrix([String([random.randint(min_gen, max_gen) for _ in range(num_of_col)]) for _ in range(num_of_str)])
 
 
 def input_matrix():
