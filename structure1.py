@@ -50,7 +50,7 @@ class Matrix:
     def __mul__(self, other):
         if isinstance(other, float) or isinstance(other, int):
             return Matrix([string * other for string in self.value])
-        if isinstance(other, Matrix):
+        elif isinstance(other, Matrix):
             if len(self.value[0]) == len(other):
                 columns = []
                 matrix = []
@@ -65,7 +65,8 @@ class Matrix:
                     matrix.append(String(element))
 
                 return Matrix(matrix)
-            raise TypeError('Number of columns of first matrix  should be equal to number of strings of second matrix.')
+            else:
+                raise TypeError('Number of columns of first matrix  should be equal to number of strings of second matrix.')
         else:
             raise TypeError('Unsupported operand types for "*"')
 
