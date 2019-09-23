@@ -1,6 +1,6 @@
 import random, copy
 
-def random_matrix():
+def random_matrix(num_of_str, num_of_col, min_gen=0, max_gen=9):
     return Matrix([String([random.randint(min_gen, max_gen) for _ in range(num_of_col)]) for _ in range(num_of_str)])
 
 
