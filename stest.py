@@ -41,23 +41,23 @@ class Matrix:
         if isinstance(other, Matrix):
             pass
         if len(self) == len(other):
-            if len(self.value[0]) == len(other.value[0]):
-                return Matrix([string + string1 for string, string1 in zip(self.value, other.value)])
+            if len(self[0]) == len(other[0]):
+                return Matrix([string + string1 for string, string1 in zip(self, other)])
             raise TypeError('To add Matrixes they should be equivalent size')
         else:
             raise TypeError("Can't add Matrix to %s" % type(other))
 
     def __mul__(self, other):
         if isinstance(other, float) or isinstance(other, int):
-            return Matrix([string * other for string in self.value])
+            return Matrix([string * other for string in self])
         elif isinstance(other, Matrix):
-            if len(self.value[0]) == len(other):
+            if len(self[0]) == len(other):
                 columns = []
                 matrix = []
-                for i in range(len(other.value[0])):
-                    columns.append(String([string.value[i] for string in other.value]))
+                for i in range(len(other[0])):
+                    columns.append(String([string[i] for string in other]))
 
-                for string in self.value:
+                for string in self:
                     element = []
                     for column in columns:
                         element.append(sum((column * string).value))
@@ -84,7 +84,7 @@ class Matrix:
         return self
 
     def __next__(self):
-        if self.index < len(self.value):
+        if self.index < len(self):
             result = self[self.index]
             self.index += 1
             return result
@@ -92,17 +92,17 @@ class Matrix:
             raise StopIteration
 
     def transpose(self):
-        return Matrix([String([string.value[i] for string in self.value]) for i in range(len(self.value[0]))])
+        return Matrix([String([string[i] for string in self]) for i in range(len(self[0]))])
 
     def determinant(self):
-        if len(self) != len(self.value[0]):
+        if len(self) != len(self[0]):
             raise TypeError('Matrix must be square to compute the determinant.')
         elif len(self) == 1:
-            return self.value[0].value[0]
+            return self[0][0]
         else:
             det = 0
-            for index, element in enumerate(self.value[0].value):
-                det_matrix = copy.deepcopy(self.value[1:])
+            for index, element in enumerate(self[0]):
+                det_matrix = copy.deepcopy(self[1:])
                 for string in det_matrix:
                     string.value.pop(index)
 
@@ -132,7 +132,7 @@ class Matrix:
 
     def inverse(self):
         if self.determinant():
-            alg_matrix = [String([self.alg_extension(str_index+1, col_index+1) for col_index in range(len(self.value[0]))]) for str_index in range(len(self))]
+            alg_matrix = [String([self.alg_extension(str_index+1, col_index+1) for col_index in range(len(self[0]))]) for str_index in range(len(self))]
             alg_matrix = Matrix(alg_matrix).transpose()
             inverse = alg_matrix * (1/self.determinant())
             return inverse
@@ -156,21 +156,21 @@ class String(Matrix):
 
     def __add__(self, other):
         if isinstance(other, String):
-            return String([item1 + item2 for item1, item2 in zip(self.value, other.value)])
+            return String([item1 + item2 for item1, item2 in zip(self, other)])
         raise ValueError
 
     def __mul__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            return String([item * other for item in self.value])
+            return String([item * other for item in self])
         if isinstance(other, String):
-            return String([item * item2 for item, item2 in zip(self.value, other.value)])
+            return String([item * item2 for item, item2 in zip(self, other)])
         raise TypeError
 
     def __len__(self):
         return len(self.value)
 
     def __repr__(self):
-        return ' '.join(('{:^7.2f}'.format(i) for i in self.value))
+        return ' '.join(('{:^7.2f}'.format(i) for i in self))
 
     def __getitem__(self, key):
         return self.value[key]
@@ -180,7 +180,7 @@ class String(Matrix):
         return self
 
     def __next__(self):
-        if self.index < len(self.value):
+        if self.index < len(self):
             result = self[self.index]
             self.index += 1
             return result
