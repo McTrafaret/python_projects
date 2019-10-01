@@ -139,7 +139,11 @@ class Matrix:
         else:
             raise ValueError('To compute inverse matrix, the determinant must be above zero.')
 
+    def search(self):
+        pass
 
+    def ladder(self):
+        pass
 
 class String(Matrix):
 
