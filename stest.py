@@ -77,6 +77,27 @@ class Matrix:
         return '\n'.join(('{}'.format(i) for i in self.value))
 
     def __getitem__(self, key):
+        if isinstance(key, slice):
+            if key.start:
+                if key.start>=len(self):
+                    start = len(self)
+                else:
+                    start = key.start
+            else:
+                start = 0
+            if key.stop:
+                if key.stop>=len(self):
+                    stop = len(self)
+                else:
+                    stop = key.stop
+            else:
+                stop = len(self)
+            if key.step:
+                step = key.step
+            else:
+                step = 1
+            return Matrix([self.value[i] for i in range(start, stop,
+                step)])
         return self.value[key]
 
     def __iter__(self):
