@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 
 pygame.init()
 
@@ -23,6 +23,20 @@ clock = pygame.time.Clock()
 car_image = pygame.image.load('car.png')
 car_image = pygame.transform.scale(car_image, (100, 150))
 
+def text_objects():
+    pass
+
+def message_display(text):
+    largeText = pygame.font.Font('freesansbold.ttf', 115)
+    text_surf, text_rect = text_objects(text, largeText)
+    text_rect.center = (WIDTH/2, HEIGHT/2)
+    gameDisplay.blit()
+
+def crash():
+    message_display('You crashed')
+    time.sleep(2)
+    game_loop()
+
 # displays car at certain position
 def car(x,y):
     gameDisplay.blit(car_image, (x,y))
@@ -35,14 +49,14 @@ def game_loop():
     x = WIDTH * 0.45
     y = HEIGHT * 0.6
     x_speed = 0
-    y_speed = 0
 
     while not crashed:
 
         # event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                crashed = True
+                pygame.quit()
+                quit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -50,25 +64,16 @@ def game_loop():
                 elif event.key == pygame.K_RIGHT:
                     x_speed = 5
 
-                if event.key == pygame.K_UP:
-                    y_speed = -5
-                elif event.key == pygame.K_DOWN:
-                    y_speed = 5
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     x_speed = 0
-                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    y_speed = 0
 
         if x + 100 > WIDTH or x < 0:
-            crashed = True
-        if y + 150 > HEIGHT or y < 0:
-            crashed = True
+            crash()
 
         # drawing and outputing display
         x += x_speed
-        y += y_speed
         gameDisplay.fill(WHITE)
         car(x,y)
         pygame.display.update()
