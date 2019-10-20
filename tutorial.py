@@ -27,13 +27,28 @@ car_image = pygame.transform.scale(car_image, (car_width, car_height))
 
 
 def borders(border_x, border_y, border_w, border_h, color):
+
+    '''
+    Draws block at certain position.
+    '''
+
     pygame.draw.rect(gameDisplay, color, [border_x, border_y, border_w, border_h])
 
 def text_objects(text, font):
+
+    '''
+    Returns text and its position
+    '''
+
     text_surf = font.render(text, True, BLACK)
     return text_surf, text_surf.get_rect()
 
 def message_display(text):
+
+    '''
+    Displays text on the screen
+    '''
+
     font  = pygame.font.Font('freesansbold.ttf', 100)
     text_surf, text_rect = text_objects(text, font)
     text_rect.center = (WIDTH/2, HEIGHT/2)
@@ -41,15 +56,28 @@ def message_display(text):
     pygame.display.update()
 
 def crash():
+
+    '''
+    Displays "You crashed" on the screen and restarts the game in a 2 seconds.
+    '''
+
     message_display('You crashed')
     time.sleep(2)
     game_loop()
 
-# displays car at certain position
 def car(x,y):
+
+    '''
+    Displays car at a certain position.
+    '''
+
     gameDisplay.blit(car_image, (x,y))
 
 def game_loop():
+
+    '''
+    Runs the game.
+    '''
 
     crashed = False
 
@@ -83,6 +111,7 @@ def game_loop():
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     x_speed = 0
 
+        # Car crashes when run into a border of the screen
         if x + 100 > WIDTH or x < 0:
             crash()
 
@@ -90,18 +119,24 @@ def game_loop():
         x += x_speed
         gameDisplay.fill(WHITE)
 
+        # Creates the illusion of driving car by moving borders
         border_start_y += border_speed
         borders(border_start_x, border_start_y, border_width,
                 border_height, BLACK)
 
+        # Draws new block when previous run off the screen
         if border_start_y > HEIGHT:
             border_start_y = 0-border_width
             border_start_x = random.randrange(0, WIDTH)
 
+        # Car crashes when run into a border block
         if border_start_y + border_height>y:
-            if not x + car_width < border_start_x or not x > border_start_x + border_width:
+            if x + car_width < border_start_x or x > border_start_x + border_width:
+                pass
+            else:
                 crash()
 
+        # Updates the car and the screen
         car(x,y)
         pygame.display.update()
         clock.tick(60)
